@@ -15,9 +15,6 @@ module dict_writer_unit_test;
 
     function void build();
         svunit_ut = new(name);
-
-        fd = $fopen("output.csv");
-        writer = new(fd);
     endfunction
 
 
@@ -33,8 +30,23 @@ module dict_writer_unit_test;
 
     `SVUNIT_TESTS_BEGIN
 
-        `SVTEST(dummy)
-            `FAIL_IF(0)
+        `SVTEST(can_write_single_field_to_header_row)
+            string line;
+
+            fd = $fopen("file.csv", "w");
+            writer = new(fd, '{ "some_field" });
+            writer.write_header();
+            $fclose(fd);
+
+            fd = $fopen("file.csv", "r");
+            $fgets(line, fd);
+            `FAIL_IF_LOG(line.len() == 0 && $feof(fd), "File is empty")
+            `FAIL_UNLESS_STR_EQUAL(line, "some_field\n")
+
+            $fgets(line, fd);
+            `FAIL_UNLESS(line.len() == 0)
+            `FAIL_UNLESS_LOG($feof(fd), "File contains more lines")
+            $fclose(fd);
         `SVTEST_END
 
     `SVUNIT_TESTS_END

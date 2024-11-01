@@ -20,14 +20,29 @@
  */
 class dict_writer;
     local const bit[31:0] fd;
+    local const string field_names[];
 
     /**
      * Creates a new {@link dict_writer}.
      *
      * @param fd file descriptor pointing to the output file
+     * @param field_names list of keys that identify the order in which values in the dictionary
+     *              passed to the {@link write_row} method are written to file
      */
-    function new(bit[31:0] fd);
+    function new(bit[31:0] fd, string field_names[]);
         // TODO Check that this is a legal file descriptor (e.g not an MCD)
         this.fd = fd;
+
+        // TODO Check that this is a legal array (e.g not empty, no duplicates)
+        this.field_names = field_names;
+    endfunction
+
+
+    /**
+     * Writes a row with the field names (as specified in the constructor) to the writer’s file
+     * descriptor.
+     */
+    function void write_header();
+        $fdisplay(fd, field_names[0]);
     endfunction
 endclass
