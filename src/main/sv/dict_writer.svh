@@ -57,6 +57,9 @@ class dict_writer;
      */
     function void write_row(string row[string]);
         // TODO Check that row is legal (e.g. not empty)
-        $fdisplay(fd, row[field_names[0]]);
+        $fwrite(fd, row[field_names[0]]);
+        for (int i = 1; i < field_names.size(); i++)
+            $fwrite(fd, ",%s", row[field_names[i]]);
+        $fwrite(fd, "\n");
     endfunction
 endclass

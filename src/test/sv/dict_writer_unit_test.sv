@@ -71,6 +71,20 @@ module dict_writer_unit_test;
             check_contents_identical("expected.csv", "file.csv");
         `SVTEST_END
 
+
+        `SVTEST(can_write_multiple_fields_to_row)
+            bit[31:0] expected_fd = $fopen("expected.csv");
+
+            fd = $fopen("file.csv", "w");
+            writer = new(fd, '{ "field0", "field1", "field2" });
+            writer.write_row('{ "field0": "value0", "field1": "value1", "field2": "value2" });
+            $fclose(fd);
+
+            $fdisplay(expected_fd, "value0,value1,value2");
+            $fclose(expected_fd);
+            check_contents_identical("expected.csv", "file.csv");
+        `SVTEST_END
+
     `SVUNIT_TESTS_END
 
 
