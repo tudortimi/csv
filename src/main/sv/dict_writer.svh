@@ -43,6 +43,9 @@ class dict_writer;
      * descriptor.
      */
     function void write_header();
-        $fdisplay(fd, field_names[0]);
+        $fwrite(fd, field_names[0]);
+        for (int i = 1; i < field_names.size(); i++)
+            $fwrite(fd, ",%s", field_names[i]);
+        $fwrite(fd, "\n");
     endfunction
 endclass

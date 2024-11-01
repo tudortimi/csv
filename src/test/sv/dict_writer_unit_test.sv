@@ -49,6 +49,26 @@ module dict_writer_unit_test;
             $fclose(fd);
         `SVTEST_END
 
+
+        `SVTEST(can_write_multiple_fields_to_header_row)
+            string line;
+
+            fd = $fopen("file.csv", "w");
+            writer = new(fd, '{ "field0", "field1", "field2" });
+            writer.write_header();
+            $fclose(fd);
+
+            fd = $fopen("file.csv", "r");
+            $fgets(line, fd);
+            `FAIL_IF_LOG(line.len() == 0 && $feof(fd), "File is empty")
+            `FAIL_UNLESS_STR_EQUAL(line, "field0,field1,field2\n")
+
+            $fgets(line, fd);
+            `FAIL_UNLESS(line.len() == 0)
+            `FAIL_UNLESS_LOG($feof(fd), "File contains more lines")
+            $fclose(fd);
+        `SVTEST_END
+
     `SVUNIT_TESTS_END
 
 endmodule
