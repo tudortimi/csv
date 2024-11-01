@@ -48,4 +48,15 @@ class dict_writer;
             $fwrite(fd, ",%s", field_names[i]);
         $fwrite(fd, "\n");
     endfunction
+
+
+    /**
+     * Writes the row argument to the writer’s file descriptor
+     *
+     * @param row dictionary containing values for the field names
+     */
+    function void write_row(string row[string]);
+        // TODO Check that row is legal (e.g. not empty)
+        $fdisplay(fd, row[field_names[0]]);
+    endfunction
 endclass
