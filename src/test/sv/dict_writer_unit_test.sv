@@ -31,44 +31,49 @@ module dict_writer_unit_test;
     `SVUNIT_TESTS_BEGIN
 
         `SVTEST(can_write_single_field_to_header_row)
-            string line;
+            bit[31:0] expected_fd = $fopen("expected.csv");
 
             fd = $fopen("file.csv", "w");
             writer = new(fd, '{ "some_field" });
             writer.write_header();
             $fclose(fd);
 
-            fd = $fopen("file.csv", "r");
-            $fgets(line, fd);
-            `FAIL_IF_LOG(line.len() == 0 && $feof(fd), "File is empty")
-            `FAIL_UNLESS_STR_EQUAL(line, "some_field\n")
-
-            $fgets(line, fd);
-            `FAIL_UNLESS(line.len() == 0)
-            `FAIL_UNLESS_LOG($feof(fd), "File contains more lines")
-            $fclose(fd);
+            $fdisplay(expected_fd, "some_field");
+            $fclose(expected_fd);
+            check_contents_identical("expected.csv", "file.csv");
         `SVTEST_END
 
 
         `SVTEST(can_write_multiple_fields_to_header_row)
-            string line;
+            bit[31:0] expected_fd = $fopen("expected.csv");
 
             fd = $fopen("file.csv", "w");
             writer = new(fd, '{ "field0", "field1", "field2" });
             writer.write_header();
             $fclose(fd);
 
-            fd = $fopen("file.csv", "r");
-            $fgets(line, fd);
-            `FAIL_IF_LOG(line.len() == 0 && $feof(fd), "File is empty")
-            `FAIL_UNLESS_STR_EQUAL(line, "field0,field1,field2\n")
-
-            $fgets(line, fd);
-            `FAIL_UNLESS(line.len() == 0)
-            `FAIL_UNLESS_LOG($feof(fd), "File contains more lines")
-            $fclose(fd);
+            $fdisplay(expected_fd, "field0,field1,field2");
+            $fclose(expected_fd);
+            check_contents_identical("expected.csv", "file.csv");
         `SVTEST_END
 
     `SVUNIT_TESTS_END
+
+
+    task automatic check_contents_identical(string expected_file_path, string actual_file_path);
+        bit[31:0] expected_fd = $fopen(expected_file_path, "r");
+        bit[31:0] actual_fd = $fopen(actual_file_path, "r");
+
+        while (!$feof(expected_fd)) begin
+            string expected_line;
+            string actual_line;
+            $fgets(expected_line, expected_fd);
+            $fgets(actual_line, actual_fd);
+            `FAIL_UNLESS_STR_EQUAL(expected_line, actual_line)
+        end
+
+        $fclose(expected_fd);
+        $fclose(actual_fd);
+    endtask
 
 endmodule
