@@ -43,9 +43,14 @@ class dict_writer;
      * descriptor.
      */
     function void write_header();
-        $fwrite(fd, field_names[0]);
-        for (int i = 1; i < field_names.size(); i++)
-            $fwrite(fd, ",%s", field_names[i]);
+        write_list(field_names);
+    endfunction
+
+
+    local function void write_list(string list[]);
+        $fwrite(fd, list[0]);
+        for (int i = 1; i < list.size(); i++)
+            $fwrite(fd, ",%s", list[i]);
         $fwrite(fd, "\n");
     endfunction
 
@@ -57,9 +62,9 @@ class dict_writer;
      */
     function void write_row(string row[string]);
         // TODO Check that row is legal (e.g. not empty)
-        $fwrite(fd, row[field_names[0]]);
-        for (int i = 1; i < field_names.size(); i++)
-            $fwrite(fd, ",%s", row[field_names[i]]);
-        $fwrite(fd, "\n");
+        string field_values[] = new[field_names.size()];
+        foreach (field_names[i])
+            field_values[i] = row[field_names[i]];
+        write_list(field_values);
     endfunction
 endclass
