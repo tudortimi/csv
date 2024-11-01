@@ -10,12 +10,14 @@ module dict_writer_unit_test;
     import csv::*;
 
     dict_writer writer;
+    bit[31:0] fd;
 
 
     function void build();
         svunit_ut = new(name);
 
-        writer = new();
+        fd = $fopen("output.csv");
+        writer = new(fd);
     endfunction
 
 

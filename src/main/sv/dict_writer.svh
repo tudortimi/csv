@@ -19,4 +19,15 @@
  * Maps dictionaries (i.e. associative arrays) onto output rows.
  */
 class dict_writer;
+    local const bit[31:0] fd;
+
+    /**
+     * Creates a new {@link dict_writer}.
+     *
+     * @param fd file descriptor pointing to the output file
+     */
+    function new(bit[31:0] fd);
+        // TODO Check that this is a legal file descriptor (e.g not an MCD)
+        this.fd = fd;
+    endfunction
 endclass
