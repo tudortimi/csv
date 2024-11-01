@@ -15,6 +15,8 @@
  */
 
 
-package csv;
-    `include "dict_writer.svh"
-endpackage
+/**
+ * Maps dictionaries (i.e. associative arrays) onto output rows.
+ */
+class dict_writer;
+endclass
