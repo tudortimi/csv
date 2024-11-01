@@ -16,4 +16,5 @@
 
 
 package csv;
+    `include "dict_writer.svh"
 endpackage
