@@ -3,6 +3,8 @@ plugins {
     id 'com.verificationgentleman.gradle.hdvl.svunit' version '0.2.7'
 }
 
+group 'com.verificationgentleman'
+
 dependencies {
     testCompile 'org.svunit:svunit:v3.38.0'
 }
