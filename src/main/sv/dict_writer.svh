@@ -19,6 +19,8 @@
  * Maps dictionaries (i.e. associative arrays) onto output rows.
  */
 class dict_writer;
+    local static const string DOUBLE_QUOTE = "\"";
+
     local const bit[31:0] fd;
     local const string field_names[];
 
@@ -48,10 +50,26 @@ class dict_writer;
 
 
     local function void write_list(string list[]);
-        $fwrite(fd, list[0]);
+        $fwrite(fd, get_value_to_write(list[0]));
         for (int i = 1; i < list.size(); i++)
-            $fwrite(fd, ",%s", list[i]);
+            $fwrite(fd, ",%s", get_value_to_write(list[i]));
         $fwrite(fd, "\n");
+    endfunction
+
+
+    local function string get_value_to_write(string value);
+        if (contains_space(value))
+            return { DOUBLE_QUOTE, value, DOUBLE_QUOTE };
+        return value;
+    endfunction
+
+
+    local function bit contains_space(string s);
+        foreach (s[i]) begin
+            if (s[i] == " ")
+                return 1;
+        end
+        return 0;
     endfunction
 
 
