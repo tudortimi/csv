@@ -58,6 +58,8 @@ class dict_writer;
 
 
     local function string get_value_to_write(string value);
+        if (value == DOUBLE_QUOTE)
+            return { DOUBLE_QUOTE, DOUBLE_QUOTE, DOUBLE_QUOTE, DOUBLE_QUOTE };
         if (contains_space(value))
             return { DOUBLE_QUOTE, value, DOUBLE_QUOTE };
         return value;
