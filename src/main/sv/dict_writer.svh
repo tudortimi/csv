@@ -48,10 +48,25 @@ class dict_writer;
 
 
     local function void write_list(string list[]);
-        $fwrite(fd, list[0]);
+        $fwrite(fd, get_value_to_write(list[0]));
         for (int i = 1; i < list.size(); i++)
             $fwrite(fd, ",%s", list[i]);
         $fwrite(fd, "\n");
+    endfunction
+
+
+    local function string get_value_to_write(string value);
+        if (contains_space(value))
+            return { "\"", value, "\"" };
+        return value;
+    endfunction
+
+
+    local function bit contains_space(string s);
+        foreach (s[i])
+            if (s[i] == " ")
+                return 1;
+        return 0;
     endfunction
 
 

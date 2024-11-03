@@ -85,6 +85,20 @@ module dict_writer_unit_test;
             check_contents_identical("expected.csv", "file.csv");
         `SVTEST_END
 
+
+        `SVTEST(can_write_value_with_space_to_row)
+            bit[31:0] expected_fd = $fopen("expected.csv");
+
+            fd = $fopen("file.csv", "w");
+            writer = new(fd, '{ "some_field" });
+            writer.write_row('{ "some_field": "some value" });
+            $fclose(fd);
+
+            $fdisplay(expected_fd, "\"some value\"");
+            $fclose(expected_fd);
+            check_contents_identical("expected.csv", "file.csv");
+        `SVTEST_END
+
     `SVUNIT_TESTS_END
 
 
