@@ -19,6 +19,8 @@
  * Maps dictionaries (i.e. associative arrays) onto output rows.
  */
 class dict_writer;
+    local static const string DOUBLE_QUOTE = "\"";
+
     local const bit[31:0] fd;
     local const string field_names[];
 
@@ -57,7 +59,7 @@ class dict_writer;
 
     local function string get_value_to_write(string value);
         if (contains_space(value))
-            return { "\"", value, "\"" };
+            return { DOUBLE_QUOTE, value, DOUBLE_QUOTE };
         return value;
     endfunction
 
