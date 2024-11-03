@@ -58,11 +58,32 @@ class dict_writer;
 
 
     local function string get_value_to_write(string value);
-        if (value == DOUBLE_QUOTE)
-            return { DOUBLE_QUOTE, DOUBLE_QUOTE, DOUBLE_QUOTE, DOUBLE_QUOTE };
+        if (contains_double_quote(value))
+            return { DOUBLE_QUOTE, with_escaped_double_quotes(value), DOUBLE_QUOTE };
         if (contains_space(value))
             return { DOUBLE_QUOTE, value, DOUBLE_QUOTE };
         return value;
+    endfunction
+
+
+    local function bit contains_double_quote(string s);
+        foreach (s[i]) begin
+            if (s[i] == DOUBLE_QUOTE[0])
+                return 1;
+        end
+        return 0;
+    endfunction
+
+
+    local function string with_escaped_double_quotes(string s);
+        string result;
+        foreach (s[i]) begin
+            if (s[i] == DOUBLE_QUOTE[0])
+                result = { result, DOUBLE_QUOTE, DOUBLE_QUOTE };
+            else
+                result = { result, s[i] };
+        end
+        return result;
     endfunction
 
 
