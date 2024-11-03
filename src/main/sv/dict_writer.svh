@@ -63,9 +63,10 @@ class dict_writer;
 
 
     local function bit contains_space(string s);
-        foreach (s[i])
+        foreach (s[i]) begin
             if (s[i] == " ")
                 return 1;
+        end
         return 0;
     endfunction
 
