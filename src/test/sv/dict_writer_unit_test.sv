@@ -86,7 +86,7 @@ module dict_writer_unit_test;
         `SVTEST_END
 
 
-        `SVTEST(can_write_value_with_space_to_row)
+        `SVTEST(can_write_single_value_with_space_to_row)
             bit[31:0] expected_fd = $fopen("expected.csv");
 
             fd = $fopen("file.csv", "w");
@@ -95,6 +95,20 @@ module dict_writer_unit_test;
             $fclose(fd);
 
             $fdisplay(expected_fd, "\"some value\"");
+            $fclose(expected_fd);
+            check_contents_identical("expected.csv", "file.csv");
+        `SVTEST_END
+
+
+        `SVTEST(can_write_subsequent_value_with_space_to_row)
+            bit[31:0] expected_fd = $fopen("expected.csv");
+
+            fd = $fopen("file.csv", "w");
+            writer = new(fd, '{ "some_field", "some_other_field"});
+            writer.write_row('{ "some_field": "some_value", "some_other_field": "some other value" });
+            $fclose(fd);
+
+            $fdisplay(expected_fd, "some_value,\"some other value\"");
             $fclose(expected_fd);
             check_contents_identical("expected.csv", "file.csv");
         `SVTEST_END

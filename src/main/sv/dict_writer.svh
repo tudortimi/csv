@@ -50,7 +50,7 @@ class dict_writer;
     local function void write_list(string list[]);
         $fwrite(fd, get_value_to_write(list[0]));
         for (int i = 1; i < list.size(); i++)
-            $fwrite(fd, ",%s", list[i]);
+            $fwrite(fd, ",%s", get_value_to_write(list[i]));
         $fwrite(fd, "\n");
     endfunction
 
