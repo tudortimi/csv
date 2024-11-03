@@ -1,0 +1,7 @@
+plugins {
+    id 'com.verificationgentleman.gradle.hdvl.systemverilog' version '0.2.7'
+}
+
+dependencies {
+    compile 'com.verificationgentleman:csv'
+}
