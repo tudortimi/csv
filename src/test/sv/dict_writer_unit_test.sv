@@ -86,7 +86,7 @@ module dict_writer_unit_test;
         `SVTEST_END
 
 
-        `SVTEST(writing_value_with_space_to_row_does_not_quote)
+        `SVTEST(writing_value_containing_space_to_row_does_not_quote)
             bit[31:0] expected_fd = $fopen("expected.csv");
 
             fd = $fopen("file.csv", "w");
