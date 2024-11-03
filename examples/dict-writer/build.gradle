@@ -1,0 +1,15 @@
+plugins {
+    id 'com.verificationgentleman.gradle.hdvl.systemverilog' version '0.2.7'
+}
+
+dependencies {
+    compile 'com.verificationgentleman:csv'
+}
+
+task run(type: Exec) {
+    executable = 'xrun'
+    workingDir = project.layout.buildDirectory
+    dependsOn tasks.genFullXrunArgsFile
+    args '-f', tasks.genFullXrunArgsFile.destination.get().asFile
+    args '-top', 'dict_writer_example'
+}
