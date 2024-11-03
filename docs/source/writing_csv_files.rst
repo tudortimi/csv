@@ -3,38 +3,44 @@ Writing CSV Files
 
 Open a file descriptor for the output file:
 
-.. code-block:: systemverilog
-
-    bit[31:0] fd = $fopen("output.csv");
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 5
+   :dedent:
 
 Create a `dict_writer`,
 passing it the file descriptor
 and a list of field names:
 
-.. code-block:: systemverilog
-
-    dict_writer writer = new(fd, '{ "field0", "field1" });
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 6
+   :dedent:
 
 Write the header of the CSV file:
 
-.. code-block:: systemverilog
-
-    writer.write_header();
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 7
+   :dedent:
 
 Write a row:
 
-.. code-block:: systemverilog
-
-    writer.write_row('{ "field0": "word", "field1": "compound-word" });
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 8
+   :dedent:
 
 Writing values containing spaces or quotes is also supported:
 
-.. code-block:: systemverilog
-
-    writer.write_row('{ "field0": "words separate by space", "field1": "word with \"quotes\"" });
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 9
+   :dedent:
 
 Close the output file:
 
-.. code-block:: systemverilog
-
-    $fclose(fd);
+.. literalinclude:: ../../examples/dict-writer/src/main/sv/dict_writer_example.sv
+   :language: systemverilog
+   :lines: 10
+   :dedent:
