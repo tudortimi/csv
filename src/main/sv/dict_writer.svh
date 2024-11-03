@@ -60,8 +60,6 @@ class dict_writer;
     local function string get_value_to_write(string value);
         if (contains_double_quote(value))
             return { DOUBLE_QUOTE, with_escaped_double_quotes(value), DOUBLE_QUOTE };
-        if (contains_space(value))
-            return { DOUBLE_QUOTE, value, DOUBLE_QUOTE };
         return value;
     endfunction
 
@@ -84,15 +82,6 @@ class dict_writer;
                 result = { result, s[i] };
         end
         return result;
-    endfunction
-
-
-    local function bit contains_space(string s);
-        foreach (s[i]) begin
-            if (s[i] == " ")
-                return 1;
-        end
-        return 0;
     endfunction
 
 
